@@ -1,4 +1,12 @@
 <div>안녕</div>
+<div sec:authrization="isAuthentication()">로그아웃</div>
+<div sec:authrization="isAuthentication()">아이디</div>
+<div sec:authrization="isAuthentication()">프로필 이미지 표시</div>
+
+<div sec:authrization="!isAuthentication()">로그인</div>
+<div sec:authrization="!isAuthentication()">회원가입</div>
+<div sec:authrization="!isAuthentication()">아이디 찾기</div>
+<div sec:authrization="!isAuthentication()">비밀번호 찾기</div>
 
 <div>
     [[${param.errorMsg}]]

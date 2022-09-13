@@ -51,6 +51,7 @@ public class MemberController {
         return "redirect:/member/profile";
     }
 
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile(Principal principal, Model model) {
@@ -60,4 +61,11 @@ public class MemberController {
 
         return "member/profile";
     }
+
+
+    @GetMapping("/login")
+    public String login(){
+        return "member/login";
+    }
+
 }
