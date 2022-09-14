@@ -1,10 +1,23 @@
-<header th:if="${loginedMember != null}">
-    user3 / <img th:src="@{${loginedMemberProfileImgUrl}}" alt="">
-</header>
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
 
-<hr>
+<head>
+    <title>메인</title>
+</head>
 
-<div>안녕</div>
-<div>
-    [[${param.errorMsg}]]
-</div>
+<body>
+<section layout:fragment="content">
+
+    <div class="container">
+        <header th:if="${loginedMember != null}">
+            user3 / <img th:src="@{${loginedMemberProfileImgUrl}}" alt="">
+        </header>
+
+        <hr>
+
+        <div>안녕</div>
+    </div>
+
+</section>
+</body>
+</html>
