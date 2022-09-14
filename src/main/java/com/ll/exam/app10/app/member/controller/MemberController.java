@@ -23,11 +23,19 @@ public class MemberController {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showJoin() {
         return "member/join";
     }
 
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/login")
+    public String showLogin() {
+        return "member/login";
+    }
+
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String join(HttpServletRequest req, String username, String password, String email, MultipartFile profileImg) {
         Member oldMember = memberService.getMemberByUsername(username);
@@ -41,7 +49,6 @@ public class MemberController {
 
         Member member = memberService.join(username, password, email, profileImg);
 
-        // 자동 로그인
         try {
             req.login(username, passwordClearText);
         } catch (ServletException e) {
@@ -50,7 +57,6 @@ public class MemberController {
 
         return "redirect:/member/profile";
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
@@ -61,11 +67,4 @@ public class MemberController {
 
         return "member/profile";
     }
-
-
-    @GetMapping("/login")
-    public String login(){
-        return "member/login";
-    }
-
 }
