@@ -4,19 +4,47 @@ import com.ll.exam.app10.app.member.entity.Member;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
-public class MemberContext extends User {
+public class MemberContext extends User implements OAuth2User {
     private final Long id;
+    private final String email;
     private final String profileImgUrl;
 
+    private Map<String, Object> attributes;
+    private String userNameAttributeName;
+
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
-        // 상속을 받았기 때문에 이부분은 무조건 해줘야해서 기본적으로 어떤 User인지 저장해준다.
-        // 그냥 간단하게 생각하면 principal에서의 기본적인 정보를 제공하는 곳이라고 생각하면 된다.
         super(member.getUsername(), member.getPassword(), authorities);
         this.id = member.getId();
+        this.email = member.getEmail();
         this.profileImgUrl = member.getProfileImgUrl();
+    }
+
+    public MemberContext(Member member, List<GrantedAuthority> authorities, Map<String, Object> attributes, String userNameAttributeName) {
+        this(member, authorities);
+        this.attributes = attributes;
+        this.userNameAttributeName = userNameAttributeName;
+    }
+
+    @Override
+    public Set<GrantedAuthority> getAuthorities() {
+        return super.getAuthorities().stream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.attributes;
+    }
+
+    @Override
+    public String getName() {
+        return this.getAttribute(this.userNameAttributeName).toString();
     }
 }
