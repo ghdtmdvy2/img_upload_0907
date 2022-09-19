@@ -25,4 +25,8 @@ public class GenFile extends BaseEntity {
     private String fileExt; // 파일 확장자
     private String fileDir; // 파일 경로
     private String originFileName; // 원본 파일 이름
+
+    public String getFileName() {
+        return getId() + "." + getFileExt();
+    }
 }
